@@ -15,3 +15,7 @@ class UsersService:
         if new_user:
             return new_user
         raise UserAlreadyExistError("Username or/and email already exist !!!")
+
+    @staticmethod
+    def login(username, password):
+        return f"Login at Service layer {username} {password}"
