@@ -18,4 +18,6 @@ class UsersService:
 
     @staticmethod
     def login(username, password):
-        return f"Login at Service layer {username} {password}"
+        user_received_from_dao = UsersDao.login(username, password)
+        return UserFormat.format_single_user(user_received_from_dao)
+

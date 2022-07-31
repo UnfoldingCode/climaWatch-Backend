@@ -38,3 +38,12 @@ class UsersDao:
         except (psycopg.errors.ForeignKeyViolation, psycopg.errors.UniqueViolation):
             return None
 
+    @staticmethod
+    def login(username, password):
+        with psycopg.connect(host=API_HOST, port=API_PORT, dbname=API_DBNAME, user=API_USER,
+                             password=API_PASSWORD) as conn:
+            with conn.cursor() as cur:
+                cur.execute("select * from climawatch.users where username = %s and password = %s", (username, password))
+                user_info = cur.fetchone()
+                return {"users": user_info}
+
