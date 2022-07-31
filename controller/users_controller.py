@@ -32,3 +32,20 @@ def login():
         return user_info
     except LogInError as e:
         return {"message": str(e)}, 401
+
+
+@uc.route("/loginstatus")
+def loginstatus():
+    if session.get("user_info"):
+        return {
+            "message": "You are logged in !!",
+            "logged in user": session.get("user_info")
+        }
+    else:
+        return "You are not logged in"
+
+
+@uc.route("/logout", methods=["POST"])
+def logout():
+    session.clear()
+    return {"message": "Successfully logged out"}
