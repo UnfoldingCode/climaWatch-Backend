@@ -2,6 +2,7 @@ from dao.users_dao import UsersDao
 from utility.users_utility import UserFormat
 from exception.userAlreadyExistError import UserAlreadyExistError
 
+
 class UsersService:
     @staticmethod
     def get_users():

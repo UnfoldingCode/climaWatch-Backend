@@ -9,7 +9,7 @@ uc = Blueprint("users_controller", __name__)
 def get_users():
     if request.method == "GET":
         return UsersService.get_users()
-    else:
+    else:  # POST - create a new user
         try:
             data = request.get_json()
             return UsersService.create_user(data)
