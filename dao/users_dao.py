@@ -45,5 +45,8 @@ class UsersDao:
             with conn.cursor() as cur:
                 cur.execute("select * from climawatch.users where username = %s and password = %s", (username, password))
                 user_info = cur.fetchone()
+                if not user_info:
+                    return None
+                
                 return {"users": user_info}
 

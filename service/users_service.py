@@ -1,6 +1,7 @@
 from dao.users_dao import UsersDao
 from utility.users_utility import UserFormat
 from exception.userAlreadyExistError import UserAlreadyExistError
+from exception.logInError import LogInError
 
 
 class UsersService:
@@ -19,5 +20,6 @@ class UsersService:
     @staticmethod
     def login(username, password):
         user_received_from_dao = UsersDao.login(username, password)
-        return UserFormat.format_single_user(user_received_from_dao)
-
+        if user_received_from_dao:
+            return UserFormat.format_single_user(user_received_from_dao)
+        raise LogInError("Username and Password does not match. Please try again with correct credentials !!!")

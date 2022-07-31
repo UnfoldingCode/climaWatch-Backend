@@ -1,6 +1,7 @@
 from flask import Blueprint, request, session
 from service.users_service import UsersService
 from exception.userAlreadyExistError import UserAlreadyExistError
+from exception.logInError import LogInError
 
 uc = Blueprint("users_controller", __name__)
 
@@ -14,7 +15,7 @@ def get_users():
             data = request.get_json()
             return UsersService.create_user(data)
         except UserAlreadyExistError as e:
-            return {"message": str(e)}
+            return {"message": str(e)}, 409
 
 
 @uc.route("/login", methods=["POST"])
@@ -22,7 +23,12 @@ def login():
     data = request.get_json()
     username = data["username"]
     password = data["password"]
-    # Create an HTTP session object and associate with the user that is logged in with a key within the HTTP session
-    # We add a key to the Http session object called "user_info" that contains the dictionary with all the user information.
-    # Any subsequent request that is made by the client will be identified with the appropriate Http session object that contains that key
-    return UsersService.login(username, password)
+    try:
+        # Create an HTTP session object and associate with the user that is logged in with a key within the HTTP session
+        # We add a key to the Http session object called "user_info" that contains the dictionary with all the user information.
+        # Any subsequent request that is made by the client will be identified with the appropriate Http session object that contains that key
+        user_info = UsersService.login(username, password)
+        session["user_info"] = user_info
+        return user_info
+    except LogInError as e:
+        return {"message": str(e)}, 401
