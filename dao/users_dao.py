@@ -18,3 +18,23 @@ class UsersDao:
                 cur.execute("select * from climawatch.users")
                 user_info = cur.fetchall()
                 return {"users": user_info}
+
+    @staticmethod
+    def create_user(data):
+        try:
+            username = data["username"]
+            name = data["name"]
+            email = data["email"]
+            password = data["password"]
+            with psycopg.connect(host=API_HOST, port=API_PORT, dbname=API_DBNAME, user=API_USER,
+                                 password=API_PASSWORD) as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        "insert into climawatch.users(username, name, email,  password) values(%s, %s, %s, %s) RETURNING *",
+                        (username, name, email, password))
+                    user_just_created = cur.fetchone()
+                    print(user_just_created)
+                    return "New user successfully created"
+        except (psycopg.errors.ForeignKeyViolation, psycopg.errors.UniqueViolation):
+            return None
+
