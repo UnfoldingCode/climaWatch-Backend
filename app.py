@@ -3,6 +3,7 @@ from flask_session import Session
 from flask_cors import CORS
 
 from controller.users_controller import uc
+from controller.locations_controller import lc
 
 if __name__ == "__main__":
     app = Flask(__name__)
@@ -17,5 +18,6 @@ if __name__ == "__main__":
     Session(app)
 
     app.register_blueprint(uc)
+    app.register_blueprint(lc)
 
     app.run(port=2022, debug=True)
