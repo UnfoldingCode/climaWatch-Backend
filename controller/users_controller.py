@@ -28,7 +28,8 @@ def login():
         # We add a key to the Http session object called "user_info" that contains the dictionary with all the user information.
         # Any subsequent request that is made by the client will be identified with the appropriate Http session object that contains that key
         user_info = UsersService.login(username, password)
-        session["user_info"] = user_info
+        session["user_info"] = user_info["users"][0]
+        print(session["user_info"])
         return user_info
     except LogInError as e:
         return {"message": str(e)}, 401
