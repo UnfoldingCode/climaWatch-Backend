@@ -1,4 +1,4 @@
-from flask import Flask, session
+from flask import Flask
 from flask_session import Session
 from flask_cors import CORS
 
@@ -20,4 +20,4 @@ if __name__ == "__main__":
     app.register_blueprint(uc)
     app.register_blueprint(lc)
 
-    app.run(port=2022, debug=True)
+    app.run(port=6060, debug=True)

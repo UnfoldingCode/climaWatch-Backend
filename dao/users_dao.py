@@ -15,7 +15,7 @@ class UsersDao:
         with psycopg.connect(host=API_HOST, port=API_PORT, dbname=API_DBNAME, user=API_USER,
                              password=API_PASSWORD) as conn:
             with conn.cursor() as cur:
-                cur.execute("select * from climawatch.users")
+                cur.execute("select * from public.users")
                 user_info = cur.fetchall()
                 return {"users": user_info}
 
@@ -30,7 +30,7 @@ class UsersDao:
                                  password=API_PASSWORD) as conn:
                 with conn.cursor() as cur:
                     cur.execute(
-                        "insert into climawatch.users(username, name, email,  password) values(%s, %s, %s, %s) RETURNING *",
+                        "insert into public.users(username, name, email,  password) values(%s, %s, %s, %s) RETURNING *",
                         (username, name, email, password))
                     user_just_created = cur.fetchone()
                     print(user_just_created)
@@ -43,7 +43,7 @@ class UsersDao:
         with psycopg.connect(host=API_HOST, port=API_PORT, dbname=API_DBNAME, user=API_USER,
                              password=API_PASSWORD) as conn:
             with conn.cursor() as cur:
-                cur.execute("select * from climawatch.users where username = %s and password = %s", (username, password))
+                cur.execute("select * from public.users where username = %s and password = %s", (username, password))
                 user_info = cur.fetchone()
                 if not user_info:
                     return None
