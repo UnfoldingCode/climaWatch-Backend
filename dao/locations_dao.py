@@ -18,3 +18,18 @@ class LocationDao:
                 cur.execute("select * from climawatch.locations where users_username=%s", (username,))
                 locations_info = cur.fetchall()
                 return {"locations": locations_info}
+
+    @staticmethod
+    def add_location(data, username):
+        location = data["location"]
+        with psycopg.connect(host=API_HOST, port=API_PORT, dbname=API_DBNAME, user=API_USER,
+                             password=API_PASSWORD) as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    "insert into climawatch.locations(location, users_username) values(%s, %s) RETURNING *",
+                    (location, username))
+                user_just_created = cur.fetchone()
+                print(user_just_created)
+                return "New user successfully created"
+
+
