@@ -20,16 +20,30 @@ class LocationDao:
                 return {"locations": locations_info}
 
     @staticmethod
-    def add_location(data, username):
-        location = data["location"]
+    def add_location(location, username):
+        try:
+
+            with psycopg.connect(host=API_HOST, port=API_PORT, dbname=API_DBNAME, user=API_USER,
+                                 password=API_PASSWORD) as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        "insert into climawatch.locations(location, users_username) values(%s, %s) RETURNING *",
+                        (location, username))
+                    user_just_created = cur.fetchone()
+                    print(user_just_created)
+                    return f"New location {location } successfully added to your favorite list"
+        except psycopg.errors.UniqueViolation as e:
+            return None
+
+    @staticmethod
+    def delete_location(location, username):
         with psycopg.connect(host=API_HOST, port=API_PORT, dbname=API_DBNAME, user=API_USER,
                              password=API_PASSWORD) as conn:
             with conn.cursor() as cur:
                 cur.execute(
-                    "insert into climawatch.locations(location, users_username) values(%s, %s) RETURNING *",
+                    "Delete from climawatch.locations where location=%s and users_username=%s RETURNING *",
                     (location, username))
-                user_just_created = cur.fetchone()
-                print(user_just_created)
-                return "New user successfully created"
-
-
+                location_just_deleted = cur.rowcount
+                if not location_just_deleted:
+                    return None
+                return True
