@@ -31,7 +31,7 @@ def delete_location_by_id(username):
         LocationService.delete_location_by_id(username, json_dict['location'])
         return{
             "message": f"User with username{username} with location {json_dict['location']} was successfully deleted"
-        }
+        }, 200
     except LocationError as e:
         return {
             "message": str(e)
