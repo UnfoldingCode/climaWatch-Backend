@@ -15,7 +15,8 @@ def get_users():
             data = request.get_json()
             return UsersService.create_user(data)
         except UserAlreadyExistError as e:
-            return {"message": str(e)}, 409
+            # return {"message": str(e)}, 409
+            return str(e), 409
 
 
 @uc.route("/login", methods=["POST"])

@@ -34,7 +34,7 @@ class UsersDao:
                         (username, name, email, password))
                     user_just_created = cur.fetchone()
                     print(user_just_created)
-                    return "New user successfully created"
+                    return f"{name} Welcome to ClimaWatch!!! Please sign in using your username {username} and explore additional features of ClimaWatch !!!"
         except (psycopg.errors.ForeignKeyViolation, psycopg.errors.UniqueViolation):
             return None
 
