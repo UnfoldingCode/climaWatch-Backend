@@ -1,0 +1,3 @@
+class LocationAlreadyExistError(Exception):
+    pass
+
