@@ -9,7 +9,8 @@ uc = Blueprint("users_controller", __name__)
 @uc.route("/users", methods=["GET", "POST"])
 def get_users():
     if request.method == "GET":
-        return UsersService.get_users()
+        # return UsersService.get_users()
+        return {"message":"Not allowed"}
     else:  # POST - create a new user *******************************************************
         try:
             data = request.get_json()
